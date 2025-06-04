@@ -12,7 +12,17 @@ const Contact = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     console.log('Form submitted:', formData)
-    // Handle form submission here
+    
+    // For now, we'll just log the form data
+    // To actually send emails, you'll need to connect to Supabase
+    alert('Thank you for your message! I will get back to you soon.')
+    
+    // Reset form
+    setFormData({
+      name: '',
+      email: '',
+      message: ''
+    })
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -46,7 +56,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="text-lg font-medium text-white">Email</h4>
-                  <p className="text-slate-300">your.email@example.com</p>
+                  <p className="text-slate-300">sakshiawasthi00114@gmail.com</p>
                 </div>
               </div>
 
@@ -149,7 +159,7 @@ const Contact = () => {
         {/* Footer */}
         <div className="text-center mt-16 pt-8 border-t border-slate-700">
           <p className="text-slate-400">
-            © 2024 Portfolio. Built with React & Tailwind CSS.
+            © 2024 Sakshi Awasthi Portfolio
           </p>
         </div>
       </div>

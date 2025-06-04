@@ -1,5 +1,5 @@
 
-import { supabase } from './supabase'
+import { supabase, isSupabaseConfigured } from './supabase'
 
 export interface ContactFormData {
   name: string
@@ -8,6 +8,15 @@ export interface ContactFormData {
 }
 
 export const sendContactEmail = async (formData: ContactFormData) => {
+  // Check if Supabase is configured
+  if (!isSupabaseConfigured() || !supabase) {
+    console.log('Contact form submission (Supabase not configured):', formData)
+    return { 
+      success: true, 
+      message: 'Thank you for your message! Please set up Supabase to enable email delivery.' 
+    }
+  }
+
   try {
     // Insert the contact form data into Supabase
     const { data, error } = await supabase
@@ -26,8 +35,6 @@ export const sendContactEmail = async (formData: ContactFormData) => {
       throw error
     }
 
-    // You can set up Supabase Edge Functions to send emails
-    // For now, we'll just save to database
     return { success: true, data }
   } catch (error) {
     console.error('Failed to send message:', error)

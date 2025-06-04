@@ -18,7 +18,8 @@ const Contact = () => {
       const result = await sendContactEmail(formData)
       
       if (result.success) {
-        alert('Thank you for your message! I will get back to you soon.')
+        const message = result.message || 'Thank you for your message! I will get back to you soon.'
+        alert(message)
         // Reset form
         setFormData({
           name: '',

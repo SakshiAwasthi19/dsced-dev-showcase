@@ -1,6 +1,6 @@
-
 import { Mail, MapPin, Phone, Send } from 'lucide-react'
 import { useState } from 'react'
+import { sendContactEmail } from '@/lib/emailService'
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -8,21 +8,32 @@ const Contact = () => {
     email: '',
     message: ''
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Form submitted:', formData)
+    setIsSubmitting(true)
     
-    // For now, we'll just log the form data
-    // To actually send emails, you'll need to connect to Supabase
-    alert('Thank you for your message! I will get back to you soon.')
-    
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      message: ''
-    })
+    try {
+      const result = await sendContactEmail(formData)
+      
+      if (result.success) {
+        alert('Thank you for your message! I will get back to you soon.')
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          message: ''
+        })
+      } else {
+        alert('Sorry, there was an error sending your message. Please try again.')
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      alert('Sorry, there was an error sending your message. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -110,6 +121,7 @@ const Contact = () => {
                   className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   placeholder="Your Name"
                   required
+                  disabled={isSubmitting}
                 />
               </div>
 
@@ -126,6 +138,7 @@ const Contact = () => {
                   className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   placeholder="your.email@example.com"
                   required
+                  disabled={isSubmitting}
                 />
               </div>
 
@@ -142,15 +155,17 @@ const Contact = () => {
                   className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
                   placeholder="Your message..."
                   required
+                  disabled={isSubmitting}
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
                 <Send className="w-5 h-5" />
-                <span>Send Message</span>
+                <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
               </button>
             </form>
           </div>

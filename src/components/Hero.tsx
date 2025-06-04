@@ -1,5 +1,5 @@
 
-import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react'
+import { ArrowDown, Github, Linkedin, Mail, Download, BookOpen } from 'lucide-react'
 
 const Hero = () => {
   const scrollToProjects = () => {
@@ -7,6 +7,23 @@ const Hero = () => {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
     }
+  }
+
+  const scrollToAbout = () => {
+    const element = document.getElementById('about')
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  const downloadCV = () => {
+    // Create a temporary link element to trigger download
+    const link = document.createElement('a')
+    link.href = '/cv.pdf' // You'll need to add your CV file to the public folder
+    link.download = 'Sakshi_Awasthi_CV.pdf'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   return (
@@ -32,7 +49,7 @@ const Hero = () => {
             passionate about creating innovative solutions and building impactful applications.
           </p>
           
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-12">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8">
             <button
               onClick={scrollToProjects}
               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
@@ -40,17 +57,46 @@ const Hero = () => {
               View My Projects
             </button>
             
-            <div className="flex space-x-4">
-              <a href="#" className="p-3 bg-slate-800 hover:bg-slate-700 rounded-full transition-colors duration-200 group">
-                <Github className="w-6 h-6 text-slate-300 group-hover:text-white" />
-              </a>
-              <a href="#" className="p-3 bg-slate-800 hover:bg-slate-700 rounded-full transition-colors duration-200 group">
-                <Linkedin className="w-6 h-6 text-slate-300 group-hover:text-white" />
-              </a>
-              <a href="#" className="p-3 bg-slate-800 hover:bg-slate-700 rounded-full transition-colors duration-200 group">
-                <Mail className="w-6 h-6 text-slate-300 group-hover:text-white" />
-              </a>
-            </div>
+            <button
+              onClick={downloadCV}
+              className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border border-slate-600"
+            >
+              <Download className="w-5 h-5" />
+              Download CV
+            </button>
+            
+            <button
+              onClick={scrollToAbout}
+              className="flex items-center gap-2 text-slate-300 hover:text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 border border-slate-600 hover:border-slate-400"
+            >
+              <BookOpen className="w-5 h-5" />
+              Learn More
+            </button>
+          </div>
+          
+          <div className="flex items-center justify-center gap-4 mb-12">
+            <a 
+              href="https://github.com/SakshiAwasthi19" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="p-3 bg-slate-800 hover:bg-slate-700 rounded-full transition-colors duration-200 group"
+            >
+              <Github className="w-6 h-6 text-slate-300 group-hover:text-white" />
+            </a>
+            <a 
+              href="https://www.linkedin.com/in/sakshi-awasthi-43045b265/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="p-3 bg-slate-800 hover:bg-slate-700 rounded-full transition-colors duration-200 group"
+            >
+              <Linkedin className="w-6 h-6 text-slate-300 group-hover:text-white" />
+            </a>
+            <a 
+              href="mailto:sakshiawasthi00114@gmail.com"
+              className="p-3 bg-slate-800 hover:bg-slate-700 rounded-full transition-colors duration-200 group"
+            >
+              <Mail className="w-6 h-6 text-slate-300 group-hover:text-white" />
+            </a>
           </div>
           
           <div className="animate-bounce">

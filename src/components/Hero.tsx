@@ -10,6 +10,7 @@ const Hero = () => {
   const [showButtons, setShowButtons] = useState(false)
   const [showTagline, setShowTagline] = useState(false)
   const [currentTitleIndex, setCurrentTitleIndex] = useState(0)
+  const [isTransitioning, setIsTransitioning] = useState(false)
 
   const titles = [
     "Creative Developer",
@@ -42,8 +43,12 @@ const Hero = () => {
   useEffect(() => {
     if (showTitle) {
       const interval = setInterval(() => {
-        setCurrentTitleIndex((prevIndex) => (prevIndex + 1) % titles.length)
-      }, 2500)
+        setIsTransitioning(true)
+        setTimeout(() => {
+          setCurrentTitleIndex((prevIndex) => (prevIndex + 1) % titles.length)
+          setIsTransitioning(false)
+        }, 300) // Half of transition duration
+      }, 3000) // Increased time to better see each title
       
       return () => clearInterval(interval)
     }
@@ -93,13 +98,20 @@ const Hero = () => {
               </h1>
             </div>
             
-            {/* Main Title with Rotating Animation */}
+            {/* Main Title with Sliding Animation */}
             <h2 className={`text-3xl md:text-4xl xl:text-5xl font-bold mb-6 transition-all duration-700 delay-300 ${showTitle ? 'animate-slide-in-left opacity-100' : 'opacity-0'}`}>
-              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient inline-block min-h-[1.2em]">
-                <span key={currentTitleIndex} className="animate-fade-in">
+              <div className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient inline-block min-h-[1.2em] relative overflow-hidden">
+                <span 
+                  key={currentTitleIndex} 
+                  className={`absolute inset-0 transition-all duration-600 ${
+                    isTransitioning 
+                      ? 'animate-slide-out-right opacity-0' 
+                      : 'animate-slide-in-left opacity-100'
+                  }`}
+                >
                   {titles[currentTitleIndex]}
                 </span>
-              </span>
+              </div>
             </h2>
             
             {/* Subtitle */}

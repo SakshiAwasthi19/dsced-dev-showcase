@@ -1,4 +1,3 @@
-
 import { ArrowDown, Github, Linkedin, Mail, Download, BookOpen } from 'lucide-react'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { useState, useEffect } from 'react'
@@ -10,6 +9,17 @@ const Hero = () => {
   const [showSubtitle, setShowSubtitle] = useState(false)
   const [showButtons, setShowButtons] = useState(false)
   const [showTagline, setShowTagline] = useState(false)
+  const [currentTitleIndex, setCurrentTitleIndex] = useState(0)
+
+  const titles = [
+    "Creative Developer",
+    "UI/UX Designer", 
+    "MERN Stack Developer",
+    "Problem Solver",
+    "Tech Innovator",
+    "Frontend Wizard",
+    "AIML Enthusiast"
+  ]
 
   useEffect(() => {
     if (imageLoaded) {
@@ -28,6 +38,16 @@ const Hero = () => {
       }
     }
   }, [imageLoaded])
+
+  useEffect(() => {
+    if (showTitle) {
+      const interval = setInterval(() => {
+        setCurrentTitleIndex((prevIndex) => (prevIndex + 1) % titles.length)
+      }, 2500)
+      
+      return () => clearInterval(interval)
+    }
+  }, [showTitle, titles.length])
 
   const scrollToProjects = () => {
     const element = document.getElementById('projects')
@@ -73,10 +93,12 @@ const Hero = () => {
               </h1>
             </div>
             
-            {/* Main Title with Gradient Animation */}
+            {/* Main Title with Rotating Animation */}
             <h2 className={`text-3xl md:text-4xl xl:text-5xl font-bold mb-6 transition-all duration-700 delay-300 ${showTitle ? 'animate-slide-in-left opacity-100' : 'opacity-0'}`}>
-              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient">
-                Creative Developer
+              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient inline-block min-h-[1.2em]">
+                <span key={currentTitleIndex} className="animate-fade-in">
+                  {titles[currentTitleIndex]}
+                </span>
               </span>
             </h2>
             

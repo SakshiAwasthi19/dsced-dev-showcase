@@ -1,6 +1,8 @@
+
 import { Mail, MapPin, Phone, Send } from 'lucide-react'
 import { useState } from 'react'
 import { sendContactEmail } from '@/lib/emailService'
+import { useToast } from '@/hooks/use-toast'
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +11,7 @@ const Contact = () => {
     message: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const { toast } = useToast()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -18,8 +21,10 @@ const Contact = () => {
       const result = await sendContactEmail(formData)
       
       if (result.success) {
-        const message = result.message || 'Thank you for your message! I will get back to you soon.'
-        alert(message)
+        toast({
+          title: "Message sent successfully!",
+          description: "Thank you for your message! I will get back to you soon.",
+        })
         // Reset form
         setFormData({
           name: '',
@@ -27,11 +32,19 @@ const Contact = () => {
           message: ''
         })
       } else {
-        alert('Sorry, there was an error sending your message. Please try again.')
+        toast({
+          title: "Error sending message",
+          description: "Sorry, there was an error sending your message. Please try again.",
+          variant: "destructive",
+        })
       }
     } catch (error) {
       console.error('Error submitting form:', error)
-      alert('Sorry, there was an error sending your message. Please try again.')
+      toast({
+        title: "Error sending message",
+        description: "Sorry, there was an error sending your message. Please try again.",
+        variant: "destructive",
+      })
     } finally {
       setIsSubmitting(false)
     }

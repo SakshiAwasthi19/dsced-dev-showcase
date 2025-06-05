@@ -4,6 +4,7 @@ import About from '@/components/About'
 import Projects from '@/components/Projects'
 import Contact from '@/components/Contact'
 import Navigation from '@/components/Navigation'
+import { Toaster } from '@/components/ui/toaster'
 
 const Index = () => {
   return (
@@ -13,6 +14,7 @@ const Index = () => {
       <About />
       <Projects />
       <Contact />
+      <Toaster />
     </div>
   );
 };

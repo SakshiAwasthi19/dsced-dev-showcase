@@ -47,8 +47,8 @@ const Hero = () => {
         setTimeout(() => {
           setCurrentTitleIndex((prevIndex) => (prevIndex + 1) % titles.length)
           setIsTransitioning(false)
-        }, 300) // Half of transition duration
-      }, 3000) // Increased time to better see each title
+        }, 300)
+      }, 3000)
       
       return () => clearInterval(interval)
     }
@@ -99,20 +99,22 @@ const Hero = () => {
             </div>
             
             {/* Main Title with Sliding Animation */}
-            <h2 className={`text-3xl md:text-4xl xl:text-5xl font-bold mb-6 transition-all duration-700 delay-300 ${showTitle ? 'animate-slide-in-left opacity-100' : 'opacity-0'}`}>
-              <div className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient inline-block min-h-[1.2em] relative overflow-hidden">
-                <span 
-                  key={currentTitleIndex} 
-                  className={`absolute inset-0 transition-all duration-600 ${
-                    isTransitioning 
-                      ? 'animate-slide-out-right opacity-0' 
-                      : 'animate-slide-in-left opacity-100'
-                  }`}
-                >
-                  {titles[currentTitleIndex]}
-                </span>
-              </div>
-            </h2>
+            <div className={`mb-6 transition-all duration-700 delay-300 ${showTitle ? 'opacity-100' : 'opacity-0'}`}>
+              <h2 className="text-3xl md:text-4xl xl:text-5xl font-bold">
+                <div className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient relative h-[1.2em] overflow-hidden">
+                  <span 
+                    key={currentTitleIndex} 
+                    className={`absolute inset-0 flex items-center transition-all duration-500 ease-in-out ${
+                      isTransitioning 
+                        ? 'transform translate-x-full opacity-0' 
+                        : 'transform translate-x-0 opacity-100'
+                    }`}
+                  >
+                    {titles[currentTitleIndex]}
+                  </span>
+                </div>
+              </h2>
+            </div>
             
             {/* Subtitle */}
             <p className={`text-lg md:text-xl text-slate-300 mb-8 transition-all duration-700 delay-600 ${showSubtitle ? 'animate-slide-in-left opacity-100' : 'opacity-0'}`}>

@@ -1,3 +1,4 @@
+
 import { ArrowDown, Github, Linkedin, Mail, Download, BookOpen } from 'lucide-react'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { useState, useEffect } from 'react'
@@ -96,24 +97,24 @@ const Hero = () => {
               <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-4">
                 <span className="text-white">Sakshi Awasthi</span>
               </h1>
-            </div>
-            
-            {/* Main Title with Sliding Animation */}
-            <div className={`mb-6 transition-all duration-700 delay-300 ${showTitle ? 'opacity-100' : 'opacity-0'}`}>
-              <h2 className="text-3xl md:text-4xl xl:text-5xl font-bold">
-                <div className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient relative h-[1.2em] overflow-hidden">
-                  <span 
-                    key={currentTitleIndex} 
-                    className={`absolute inset-0 flex items-center transition-all duration-500 ease-in-out ${
-                      isTransitioning 
-                        ? 'transform translate-x-full opacity-0' 
-                        : 'transform translate-x-0 opacity-100'
-                    }`}
-                  >
-                    {titles[currentTitleIndex]}
-                  </span>
+              
+              {/* Rotating titles directly under the name */}
+              <div className={`mb-2 transition-all duration-700 delay-300 ${showTitle ? 'opacity-100' : 'opacity-0'}`}>
+                <div className="text-xl md:text-2xl xl:text-3xl font-semibold">
+                  <div className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient relative h-[1.2em] overflow-hidden">
+                    <span 
+                      key={currentTitleIndex} 
+                      className={`absolute inset-0 flex items-start transition-all duration-500 ease-in-out ${
+                        isTransitioning 
+                          ? 'transform translate-y-full opacity-0' 
+                          : 'transform translate-y-0 opacity-100'
+                      }`}
+                    >
+                      {titles[currentTitleIndex]}
+                    </span>
+                  </div>
                 </div>
-              </h2>
+              </div>
             </div>
             
             {/* Subtitle */}
@@ -121,6 +122,7 @@ const Hero = () => {
               Computer Science & Design student at Dayanand Sagar College of Engineering
             </p>
             
+            {/* Buttons */}
             <div className={`flex flex-col sm:flex-row items-start gap-6 mb-8 transition-all duration-700 delay-900 ${showButtons ? 'animate-slide-in-left opacity-100' : 'opacity-0'}`}>
               <button
                 onClick={scrollToProjects}
@@ -146,6 +148,7 @@ const Hero = () => {
               </button>
             </div>
             
+            {/* Social Links */}
             <div className={`flex items-center gap-4 mb-8 transition-all duration-700 delay-1200 ${showButtons ? 'animate-slide-in-left opacity-100' : 'opacity-0'}`}>
               <a 
                 href="https://github.com/SakshiAwasthi19" 

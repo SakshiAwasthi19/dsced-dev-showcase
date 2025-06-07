@@ -98,13 +98,13 @@ const Hero = () => {
                 <span className="text-white">Sakshi Awasthi</span>
               </h1>
               
-              {/* Rotating titles directly under the name */}
-              <div className={`mb-2 transition-all duration-700 delay-300 ${showTitle ? 'opacity-100' : 'opacity-0'}`}>
-                <div className="text-xl md:text-2xl xl:text-3xl font-semibold">
-                  <div className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient relative h-[1.2em] overflow-hidden">
+              {/* Rotating titles with better visibility */}
+              <div className={`mb-6 transition-all duration-700 delay-300 ${showTitle ? 'opacity-100' : 'opacity-0'}`}>
+                <div className="text-xl md:text-2xl xl:text-3xl font-semibold h-[2.5rem] flex items-center">
+                  <div className="relative overflow-hidden h-full flex items-center">
                     <span 
                       key={currentTitleIndex} 
-                      className={`absolute inset-0 flex items-start transition-all duration-500 ease-in-out ${
+                      className={`bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-500 ease-in-out ${
                         isTransitioning 
                           ? 'transform translate-y-full opacity-0' 
                           : 'transform translate-y-0 opacity-100'

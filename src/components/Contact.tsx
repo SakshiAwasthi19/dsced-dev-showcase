@@ -1,8 +1,8 @@
 
 import { Mail, MapPin, Phone, Send } from 'lucide-react'
 import { useState } from 'react'
-import { sendContactEmail } from '@/lib/emailService'
 import { useToast } from '@/hooks/use-toast'
+import { supabase } from '@/integrations/supabase/client'
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -18,26 +18,47 @@ const Contact = () => {
     setIsSubmitting(true)
     
     try {
-      const result = await sendContactEmail(formData)
-      
-      if (result.success) {
-        toast({
-          title: "Message sent successfully!",
-          description: "Thank you for your message! I will get back to you soon.",
-        })
-        // Reset form
-        setFormData({
-          name: '',
-          email: '',
-          message: ''
-        })
-      } else {
-        toast({
-          title: "Error sending message",
-          description: "Sorry, there was an error sending your message. Please try again.",
-          variant: "destructive",
-        })
+      // Call the edge function to send email
+      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+        body: {
+          name: formData.name,
+          email: formData.email,
+          message: formData.message
+        }
+      })
+
+      if (error) {
+        console.error('Error sending email:', error)
+        throw error
       }
+
+      // Also store in database
+      const { error: dbError } = await supabase
+        .from('contact_messages')
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+            recipient_email: 'sakshiawasthi00114@gmail.com'
+          }
+        ])
+
+      if (dbError) {
+        console.error('Error storing message:', dbError)
+      }
+
+      toast({
+        title: "Message sent successfully!",
+        description: "Thank you for your message! I will get back to you soon.",
+      })
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        message: ''
+      })
     } catch (error) {
       console.error('Error submitting form:', error)
       toast({
